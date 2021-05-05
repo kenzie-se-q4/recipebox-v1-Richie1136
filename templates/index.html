@@ -1,1 +1,12 @@
-<h1>{{recipes}}</h1>
+<h2>{{recipes}}</h2>
+
+
+<h1>Hello My friends, and welcome to my Recipe Website</h1>
+
+<ul>
+  {% for recipe in recipes %}
+
+<li>{{recipe.title}}</li>
+
+{% endfor %}
+</ul>
