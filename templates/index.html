@@ -1,0 +1,13 @@
+<body style="background-color: teal;"></body>
+<h1>Hello My friends, and welcome to my Recipe Website</h1>
+
+<ul>
+  {% for recipe in recipes %}
+
+<li><a href="/recipe/{{recipe.id}}/">{{recipe.title}}</a> 
+  <!-- - by <a href="/author/{{recipe.author.id}}/">{{recipe.author.name}} -->
+  </a>
+</li>
+
+{% endfor %}
+</ul>
