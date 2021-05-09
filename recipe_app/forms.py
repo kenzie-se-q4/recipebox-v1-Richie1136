@@ -1,5 +1,8 @@
 from django import forms
 
+from recipe_app.models import Author
+
+
 
 
 class AddRecipeForm(forms.Form):
@@ -10,7 +13,6 @@ class AddRecipeForm(forms.Form):
   author = forms.ModelChoiceField(queryset=Author.objects.all())
 
 
-
 class AddAuthorForm(forms.Form):
-  name = models.CharField(max_length=50)
-  bio = models.forms.CharField(widget=forms.Textarea)
+  name = forms.CharField(max_length=50)
+  bio = forms.CharField(widget=forms.Textarea)
