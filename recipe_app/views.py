@@ -32,25 +32,21 @@ def add_recipe(request):
         instructions=data['instructions'],
         author=data['author']
       )
-      return HttpResponseRedirect(homepage)
+      return HttpResponseRedirect(reverse('homepage'))
 
   form = AddRecipeForm()
   return render(request, 'recipe_add.html', {'form' : form})
 
 def add_author(request):
-  form = AddAuthorForm()
   if request.method == 'POST':
-    data = form.cleaned_data
-    new_author = Author.objects.create(
-      name=data['name'],
-      bio=data['bio']
-    )
-    return HttpResponseRedirect(homepage)
+    form = AddAuthorForm(request.POST)
+    if form.is_valid():
+      data = form.cleaned_data
+      new_author = Author.objects.create(
+        name=data['name'],
+        bio=data['bio'],
+      )
+    return HttpResponseRedirect(reverse('homepage'))
 
   form = AddAuthorForm()
   return render(request, 'author_add.html', {'form' : form})
-
-
-
-
-
