@@ -5,9 +5,12 @@
   {% for recipe in recipes %}
 
 <li><a href="/recipe/{{recipe.id}}/">{{recipe.title}}</a> 
+  <br />
   <!-- - by <a href="/author/{{recipe.author.id}}/">{{recipe.author.name}} -->
   </a>
 </li>
 
 {% endfor %}
+<li><a href="/addrecipe">Add Recipe</a></li>
+<li><a href="/addauthor">Add Author</a></li>
 </ul>
