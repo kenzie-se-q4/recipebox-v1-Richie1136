@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 from recipe_app.models import Author, Recipe
 
-from recipe_app.forms import AddAuthorForm, AddRecipeForm
+from recipe_app.forms import AddAuthorForm, AddRecipeForm, LoginForm
 
 # Link used for admin only Authentication 
 # https://stackoverflow.com/questions/49767843/django-user-permissions
@@ -65,10 +65,15 @@ def add_author(request):
 
 
 def login_view(request):
+  if request.method == 'POST':
+    form = LoginForm(request.POST)
+    if form.is_valid():
+        data = form.cleaned_data
+        ...
+  form = LoginForm()
+  return render(request, 'generic_form.html', {'form': form})
   return HttpResponse("Hello")
 
 
 def logout_view(request):
   logout(request)
-
-  return HttpResponse("Logged out")
