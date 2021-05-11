@@ -6,7 +6,10 @@ from django.contrib.auth.models import User
 
 from recipe_app.models import Author, Recipe
 
-from recipe_app.forms import AddAuthorForm, AddRecipeForm, LoginForm
+from recipe_app.forms import AddAuthorForm, AddRecipeForm
+
+# Link used for admin only Authentication 
+# https://stackoverflow.com/questions/49767843/django-user-permissions
 
 # Create your views here.
 def index(request):
@@ -41,6 +44,7 @@ def add_recipe(request):
 
   form = AddRecipeForm()
   return render(request, 'generic_form.html', {'form' : form})
+
 @login_required
 def add_author(request):
   if request.user.is_staff or request.user.is_superuser:
@@ -60,8 +64,11 @@ def add_author(request):
     raise Http404
 
 
-
+def login_view(request):
+  return HttpResponse("Hello")
 
 
 def logout_view(request):
   logout(request)
+
+  return HttpResponse("Logged out")
