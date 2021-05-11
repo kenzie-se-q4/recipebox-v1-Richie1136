@@ -1,8 +1,12 @@
-from django.shortcuts import render, HttpResponseRedirect, reverse
+from django.http.response import Http404
+from django.shortcuts import render, HttpResponseRedirect, reverse, HttpResponse
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.models import User
 
 from recipe_app.models import Author, Recipe
 
-from recipe_app.forms import AddAuthorForm, AddRecipeForm
+from recipe_app.forms import AddAuthorForm, AddRecipeForm, LoginForm
 
 # Create your views here.
 def index(request):
@@ -20,6 +24,7 @@ def author_detail(request, author_id: int):
   author_recipes = Recipe.objects.filter(author=my_author)
   return render(request, 'author_detail.html', {'author': my_author, 'recipes': author_recipes})
 
+@login_required
 def add_recipe(request):
   if request.method == 'POST':
     form = AddRecipeForm(request.POST)
@@ -36,17 +41,27 @@ def add_recipe(request):
 
   form = AddRecipeForm()
   return render(request, 'generic_form.html', {'form' : form})
-
+@login_required
 def add_author(request):
-  if request.method == 'POST':
-    form = AddAuthorForm(request.POST)
-    if form.is_valid():
-      data = form.cleaned_data
-      new_author = Author.objects.create(
-        name=data['name'],
-        bio=data['bio'],
-      )
-    return HttpResponseRedirect(reverse('homepage'))
+  if request.user.is_staff or request.user.is_superuser:
+    if request.method == 'POST':
+      form = AddAuthorForm(request.POST)
+      if form.is_valid():
+        data = form.cleaned_data
+        new_author = Author.objects.create(
+          name=data['name'],
+          bio=data['bio'],
+        )
+      return HttpResponseRedirect(reverse('homepage'))
 
-  form = AddAuthorForm()
-  return render(request, 'generic_form.html', {'form' : form})
+    form = AddAuthorForm()
+    return render(request, 'generic_form.html', {'form' : form})
+  else:
+    raise Http404
+
+
+
+
+
+def logout_view(request):
+  logout(request)
