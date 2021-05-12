@@ -69,11 +69,15 @@ def login_view(request):
     form = LoginForm(request.POST)
     if form.is_valid():
         data = form.cleaned_data
-        ...
+        user = authenticate(request, username=data['username'], password=data['password'])
+        if user:
+          login(request, user)
+          return HttpResponseRedirect(request.GET.get('next', reverse('homepage')))
+  
   form = LoginForm()
   return render(request, 'generic_form.html', {'form': form})
-  return HttpResponse("Hello")
 
 
 def logout_view(request):
   logout(request)
+  return HttpResponseRedirect(reverse('homepage'))
