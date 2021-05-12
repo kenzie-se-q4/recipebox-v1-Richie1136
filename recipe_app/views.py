@@ -47,22 +47,19 @@ def add_recipe(request):
 
 @login_required
 def add_author(request):
-  if request.user.is_staff or request.user.is_superuser:
+  if request.user.is_staff:
     if request.method == 'POST':
       form = AddAuthorForm(request.POST)
       if form.is_valid():
         data = form.cleaned_data
-        new_author = Author.objects.create(
-          name=data['name'],
-          bio=data['bio'],
-        )
-      return HttpResponseRedirect(reverse('homepage'))
+        myuser = User.objects.create_user(username=data['username'], password=data['password'])
+        Author.objects.create(name=data['name'], bio=data['bio'], user=myuser)
+        return HttpResponseRedirect(reverse('homepage'))
 
     form = AddAuthorForm()
     return render(request, 'generic_form.html', {'form' : form})
   else:
     raise Http404
-
 
 def login_view(request):
   if request.method == 'POST':
