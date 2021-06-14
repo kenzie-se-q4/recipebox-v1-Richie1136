@@ -3,6 +3,7 @@ from django.shortcuts import render, HttpResponseRedirect, reverse, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
+from .models import Author
 from .forms import RecipeForm
 
 from recipe_app.models import Author, Recipe
@@ -37,6 +38,13 @@ def recipe_edit(request, recipe_id: int):
             return redirect('homepage')
         except ValueError:
             return render(request, 'recipe_edit.html', {'recipe': recipe, 'form': form, 'error': 'Invalid Info'})
+
+def favorite_recipe(request, recipe_id: int):
+    recipe = Recipe.objects.get(id=recipe_id)
+    author = Author.objects.get(id=request.user.id)
+    if request.method == 'POST':
+        recipe.favorite.add(author)
+    return render(request, 'favorite.html', {'recipe': recipe})
 
 
 def author_detail(request, author_id: int):

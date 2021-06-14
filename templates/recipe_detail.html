@@ -1,11 +1,18 @@
-By <a href="/author/{{recipe.author.id}}/">{{recipe.author.name}}</a>
+
 
 <body style="background-color: bisque;"></body>
 
-{{recipe.title}} 
+{% if request.user.is_authenticated %}
+    <form method="POST" action="{% url 'favoriterecipe' recipe.id %}">
+        {% csrf_token %}
+        <button type='submit'>Favorite</button>
+    </form>
+{% endif %}
+
+<h3>Recipe Title:</h3>{{recipe.title}} 
 <br />
-{{recipe.description}}
+<h3>Description:</h3>{{recipe.description}}
 <br />
-{{recipe.time_required}}
+<h3>Time Required:</h3>{{recipe.time_required}}
 <br />
-{{recipe.instructions}}
+<h3>Instructions:</h3>{{recipe.instructions}}
