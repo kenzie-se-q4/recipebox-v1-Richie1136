@@ -22,12 +22,15 @@ def index(request):
 
 def recipe_detail(request, recipe_id: int):
     recipe = Recipe.objects.get(id=recipe_id)
-    if request.user.id == recipe.author.id
-    return render(request, 'recipe_detail.html', {'recipe': recipe})
+    if request.user.id == recipe.author.id or request.user.is_staff:
+        edit_flag = True
+    if recipe not in request.user.author.favorites.all():
+        follow_flag = True
+    return render(request, 'recipe_detail.html', {'recipe': recipe, 'edit_flag': edit_flag, 'follow_flag': follow_flag})
 
-    if this_guy.is_authenticated:
-        if this_tweeter in this_guy.followers.all():
-            follow_flag = True
+    # if this_guy.is_authenticated:
+    #     if this_tweeter in this_guy.followers.all():
+    #         follow_flag = True
 
 
 def author_detail(request, author_id: int):
@@ -92,3 +95,37 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse('homepage'))
+
+
+@login_required
+def edit_recipe(request, recipe_id: int):
+    recipe = Recipe.objects.get(id=recipe_id)
+
+    if request.method == 'POST':
+        form = AddRecipeForm(request.POST)
+        if form.is_valid:
+            data = form.cleaned_data
+            recipe.title = data['title']
+            recipe.description = data['description']
+            recipe.time_required = data['time_required']
+            recipe.instructions = data['instructions']
+            recipe.author = data['author']
+            recipe.save()
+            return HttpResponseRedirect(reverse('recipe_detail', args=(recipe_id,)))
+
+    form = AddRecipeForm(initial={
+        'title': recipe.title,
+        'description': recipe.description,
+        'time_required': recipe.time_required,
+        'instructions': recipe.instructions,
+        'author': recipe.author
+    })
+    return render(request, 'generic_form.html', {'form': form})
+
+
+def favorite_this_recipe(request, recipe_id: int):
+    recipe = Recipe.objects.get(id=recipe_id)
+    author = Author.objects.get(id=request.user.author.id)
+    author.favorites.add(recipe)
+    author.save()
+    return HttpResponseRedirect(reverse('recipe_detail', args=(recipe_id,)))

@@ -20,12 +20,15 @@ from django.urls import path
 from recipe_app import views
 
 urlpatterns = [
-    path('recipe/<int:recipe_id>/', views.recipe_detail),
+    path('recipe/<int:recipe_id>/', views.recipe_detail, name="recipe_detail"),
     path('author/<int:author_id>/', views.author_detail),
     path('addrecipe/', views.add_recipe),
     path('addauthor/', views.add_author),
     path('', views.index, name='homepage'),
     path('admin/', admin.site.urls),
     path('login/', views.login_view, name='login_view'),
-    path('logout/', views.logout_view, name='logout_view')
+    path('logout/', views.logout_view, name='logout_view'),
+    path('recipe/<int:recipe_id>/edit/', views.edit_recipe, name='edit'),
+    path('recipe/<int:recipe_id/favorite',
+         views.favorite_this_recipe, name='favorite'),
 ]

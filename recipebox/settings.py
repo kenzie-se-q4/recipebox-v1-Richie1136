@@ -20,8 +20,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 dotenv_file = os.path.join(BASE_DIR, ".env")
 if os.path.isfile(dotenv_file):
     dotenv.load_dotenv(dotenv_file)
-
-SECRET_KEY = os.environ['SECRET_KEY'] 
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY",
+                       "this is a totally insecure key but whatever")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
