@@ -11,9 +11,8 @@
   {% endfor %}
 </ul>
 
-{% if request.user.is_authenticated && if favorite_flag %} View the Recipe Box for this Author: {% for recipe in
-favorites %}
+{% if favorite_flag %} View the Recipe Box for this Author: {% for recipe in favorites %}
 <li>
   <a href="recipe/{{ favorite.id }}">{{ favorite.title }}</a>
 </li>
-{% endfor %} {% endif%} {% comment %} manytomany can not be iterated - look on stackoverflow {% endcomment %}
+{% endfor %} {% endif%}

@@ -10,9 +10,10 @@ By <a href="/author/{{recipe.author.id}}/">{{recipe.author.name}}</a>
 <br />
 {{recipe.instructions}}
 <br />
+{% if request.user == recipe.author.user %}
 
-{% if request.user.is_authenticated && if favorite_flag %}
-<a href="/recipe/{{ recipe.id }}/favorite/">Add This Recipe to Recipe Box</a>
-You must be the author or an administrator to edit this post {% if edit_flag %}
-<a href="recipe/{{ recipe.id }}/edit/">Edit This Recipe</a>
+You must be the author or an administrator to edit this post
+<a href="/recipe/{{ recipe.id }}/edit/">Edit This Recipe</a>
 {% endif %}
+Put this post in your Recipe Box
+<a href="/recipe/{{ recipe.id }}/favorite/">Add to My Recipe Box</a>
