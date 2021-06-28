@@ -1,12 +1,18 @@
 <p>{{author}}</p>
 <p>{{author.bio}}</p>
 
-<body style="background-color: aqua;"></body>
+<body style="background-color: aqua"></body>
 
 <ul>
   {% for recipe in recipes %}
-<li>
-  <a href="/recipe/{{recipe.id}}/">{{recipe.title}}</a> 
-</li>
-{% endfor %}
+  <li>
+    <a href="/recipe/{{recipe.id}}/">{{recipe.title}}</a>
+  </li>
+  {% endfor %}
 </ul>
+
+{% if favorite_flag %} View the Recipe Box for this Author: {% for recipe in favorites %}
+<li>
+  <a href="recipe/{{ favorite.id }}">{{ favorite.title }}</a>
+</li>
+{% endfor %} {% endif%}

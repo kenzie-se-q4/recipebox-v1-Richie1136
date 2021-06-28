@@ -1,13 +1,17 @@
 <body style="background-color: teal;"></body>
 <h1>Hello My friends, and welcome to my Recipe Website</h1>
-
+<button id="myBtn" style="border: 1px solid red; background-color: gray;"><a href="login/">Log In</a></button>
 <ul>
   {% for recipe in recipes %}
 
 <li><a href="/recipe/{{recipe.id}}/">{{recipe.title}}</a> 
+  <br />
   <!-- - by <a href="/author/{{recipe.author.id}}/">{{recipe.author.name}} -->
   </a>
 </li>
 
 {% endfor %}
+<li><a href="/addrecipe">Add Recipe</a></li>
+<li><a href="/addauthor">Add Author</a></li>
+<button id="myBtn" style="border: 1px solid red; background-color: gray;"><a href="logout/">Log Out</a></button>
 </ul>
