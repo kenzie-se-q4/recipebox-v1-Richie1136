@@ -10,10 +10,15 @@ By <a href="/author/{{recipe.author.id}}/">{{recipe.author.name}}</a>
 <br />
 {{recipe.instructions}}
 <br />
-{% if request.user == recipe.author.user %}
-
 You must be the author or an administrator to edit this post
+</br >
+{% if request.user == recipe.author.user %}
+ {% elif request.user.is.staff %}
+
 <a href="/recipe/{{ recipe.id }}/edit/">Edit This Recipe</a>
 {% endif %}
+
+{% if request.user.is_authenticated %}
 Put this post in your Recipe Box
 <a href="/recipe/{{ recipe.id }}/favorite/">Add to My Recipe Box</a>
+{% endif %}

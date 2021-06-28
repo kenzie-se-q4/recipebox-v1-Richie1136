@@ -91,7 +91,7 @@ def logout_view(request):
 
 @ login_required
 def edit_recipe(request, recipe_id: int):
-    recipe = Recipe.objects.get(id=recipe_id)
+    recipe = Recipe.objects.get(id=recipe_id).first()
 
     if request.method == 'POST':
         form = AddRecipeForm(request.POST)
